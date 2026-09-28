@@ -3,6 +3,7 @@ import tempfile
 import unittest
 import wave
 from pathlib import Path
+from unittest.mock import patch
 
 from music_tool.state_machine import STEPS, run_song
 
@@ -24,7 +25,10 @@ class StateMachineTest(unittest.TestCase):
         )
 
     def test_log_order_and_no_overwrite(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "music_tool.models.transcribe_file",
+            lambda audio_path, midi_path: 0.9,
+        ):
             root = Path(tmp)
             song = root / "inbox" / "demo"
             _tone(song / "vocals.wav")
