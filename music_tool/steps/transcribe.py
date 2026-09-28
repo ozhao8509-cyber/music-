@@ -30,10 +30,25 @@ def run(ctx: dict) -> None:
 
 
 def transcribe_stem(ctx: dict, name: str) -> dict:
-    ctx["log"].write(f"transcribe pending {name}")
+    from pathlib import Path
+
+    from music_tool.models import transcribe_file
+
+    midi_path = ctx["root"] / "logs" / ctx["song"] / "midi" / f"{name}.mid"
+    try:
+        confidence = transcribe_file(Path(ctx["stems"][name]["source"]), midi_path)
+    except Exception as exc:
+        ctx["log"].write(f"transcribe error {name} {exc}")
+        return {
+            "midi_written": False,
+            "confidence": None,
+            "error": str(exc),
+            "skipped": False,
+        }
+    ctx["log"].write(f"transcribe wrote {name}")
     return {
-        "midi_written": False,
-        "confidence": None,
+        "midi_written": True,
+        "confidence": confidence,
         "error": None,
         "skipped": False,
     }
