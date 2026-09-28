@@ -1,0 +1,35 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# 模型权重留在本机缓存，不进仓库
+.cache/
+*.onnx
+*.pt
+*.bin
+*.gguf
+*.mlmodel
+*.tflite
+
+# 歌曲、分轨和运行结果不进仓库
+*.wav
+*.mp3
+*.flac
+*.aif
+*.aiff
+*.m4a
+*.aac
+*.wma
+*.mid
+*.midi
+*.aum
+
+inbox/**
+!inbox/.gitkeep
+review/**
+!review/.gitkeep
+done/**
+!done/.gitkeep
+logs/**
+!logs/.gitkeep
